@@ -28,21 +28,18 @@ const SocketsProvider = ({ children }: { children: React.ReactNode }) => {
   const [message, setMessage] = useState<Message>();
   const [conversation, setConversation] = useState<Message[]>([]);
 
-  // useEffect(() => {
-  socket.on("chat", (payload) => {
-    console.log("payload: ", payload);
-    // setMessage(payload);
+  const chatListenter = (payload: any) => {
+    // console.log("payload: ", payload);
     setConversation([...conversation, payload]);
+  };
+
+  useEffect(() => {
+    socket.on(EVENTS.SERVER.NEW_MESSAGE, chatListenter);
+
+    return () => {
+      socket.off(EVENTS.SERVER.NEW_MESSAGE, chatListenter);
+    };
   });
-  // });
-
-  // useEffect(() => {
-  //   socket.on(EVENTS.SERVER.NEW_MESSAGE, (payload) => {
-  //     console.log("payload: ", payload);
-
-  //     setConversation([...conversation, payload]);
-  //   });
-  // });
 
   return (
     <SocketContext.Provider

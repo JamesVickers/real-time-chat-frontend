@@ -15,8 +15,8 @@ const MessagesContainer = () => {
     if (!String(body).trim()) return;
 
     // emit message created event
-    // socket.emit(EVENTS.CLIENT.CREATE_MESSAGE, { body });
-    socket.emit("chat", { body });
+    socket.emit(EVENTS.CLIENT.CREATE_MESSAGE, { body });
+    // socket.emit("chat", { body });
 
     // set message input back to empty string
     newMessageRef.current.value = "";
